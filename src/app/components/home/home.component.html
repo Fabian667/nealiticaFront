@@ -1,0 +1,175 @@
+<header>
+  <div class="container nav-container">
+    <a href="#" class="logo">
+      <img src="assets/logo.jpeg" alt="Nealitica">
+    </a>
+    
+    <button class="mobile-menu-btn" (click)="toggleMenu()" [class.active]="isMenuOpen" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <div class="nav-overlay" [class.active]="isMenuOpen" (click)="closeMenu()"></div>
+
+    <nav class="nav-menu" [class.active]="isMenuOpen">
+      <ul class="nav-links">
+        <li><a (click)="scrollTo('inicio'); closeMenu()">Inicio</a></li>
+        <li><a (click)="scrollTo('servicios'); closeMenu()">Servicios</a></li>
+        <li><a (click)="scrollTo('informes'); closeMenu()">Informes</a></li>
+        <li><a (click)="scrollTo('noticias'); closeMenu()">Noticias</a></li>
+        <li><a (click)="scrollTo('alianzas'); closeMenu()">Alianzas</a></li>
+        <li><a (click)="scrollTo('contacto'); closeMenu()">Contacto</a></li>
+      </ul>
+      <!-- Optional: Add a CTA button inside menu for mobile if needed -->
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section id="inicio" class="hero">
+    <div class="container hero-content">
+      <h1>INVESTIGACIÓN.<br>COMUNICACIÓN ESTRATÉGICA.<br>DATOS Y ANÁLISIS.</h1>
+      <p>Transformamos datos en decisiones estratégicas para tu organización.</p>
+      <button class="cta-button" (click)="scrollTo('contacto')">Contáctanos</button>
+    </div>
+  </section>
+
+  <!-- Servicios Section -->
+  <section id="servicios" class="services">
+    <div class="container">
+      <h2>Nuestros Servicios</h2>
+      <!-- DEBUG INFO -->
+      <div style="color: yellow; text-align: center; margin-bottom: 20px;">
+        DEBUG: Servicios encontrados: {{ servicios.length }}
+      </div>
+      
+      <div class="services-grid">
+        <div class="service-card" *ngFor="let servicio of servicios">
+          <img *ngIf="servicio.imagenUrl" [src]="servicio.imagenUrl" alt="{{servicio.titulo}}" style="max-width: 100%; height: auto; margin-bottom: 1rem;">
+          <h3>{{ servicio.titulo }}</h3>
+          <p>{{ servicio.descripcion }}</p>
+        </div>
+        <div *ngIf="servicios.length === 0" class="no-data">
+          <p>Cargando servicios...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Informes Section -->
+  <section id="informes" class="informes">
+    <div class="container">
+      <h2>Informes Destacados</h2>
+      <div class="informes-grid">
+        <div class="informe-card" *ngFor="let informe of informes">
+          <div class="informe-icon">📄</div>
+          <h3>{{ informe.titulo }}</h3>
+          <p>{{ informe.descripcion }}</p>
+          <div class="informe-footer">
+            <span class="informe-date">{{ informe.fechaPublicacion | date:'mediumDate' }}</span>
+            <a [href]="informe.archivoUrl" target="_blank" class="download-link">Descargar PDF</a>
+          </div>
+        </div>
+        <div *ngIf="informes.length === 0" class="no-data">
+          <p>No hay informes disponibles por el momento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Noticias Section -->
+  <section id="noticias">
+    <div class="container">
+      <h2>Últimas Noticias</h2>
+      <div class="news-grid">
+        <div class="news-card" *ngFor="let noticia of noticias">
+          <div class="news-image" [style.backgroundImage]="'url(' + (noticia.imagenUrl || 'assets/news-placeholder.jpg') + ')'"></div>
+          <div class="news-content">
+            <span class="news-date">{{ noticia.fechaPublicacion | date:'longDate' }}</span>
+            <h3>{{ noticia.titulo }}</h3>
+            <p>{{ noticia.contenido | slice:0:150 }}...</p>
+          </div>
+        </div>
+        <div *ngIf="noticias.length === 0" class="no-data">
+          <p>No hay noticias recientes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alianzas Section -->
+  <section id="alianzas" class="alianzas">
+    <div class="container">
+      <h2>Nuestras Alianzas</h2>
+      <div class="alianzas-grid">
+        <div class="alianza-item" *ngFor="let alianza of alianzas">
+          <a [href]="alianza.urlSitio" target="_blank">
+            <img [src]="alianza.logoUrl" [alt]="alianza.nombre" [title]="alianza.nombre">
+          </a>
+        </div>
+        <div *ngIf="alianzas.length === 0" class="no-data">
+          <p>Próximamente nuevas alianzas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto Section -->
+  <section id="contacto">
+    <div class="container">
+      <h2>Contacto</h2>
+      <div class="contact-container">
+        <div class="contact-info">
+          <h3>Hablemos de tu proyecto</h3>
+          <p>Estamos listos para ayudarte a alcanzar tus objetivos con soluciones basadas en datos.</p>
+          <br>
+          <p><strong>Email:</strong> contacto@nealitica.com</p>
+          <p><strong>Teléfono:</strong> +54 9 11 1234 5678</p>
+          <p><strong>Dirección:</strong> Buenos Aires, Argentina</p>
+        </div>
+        <div class="contact-form">
+          <div *ngIf="mensajeEnviado" class="success-message">
+            ¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.
+          </div>
+          <div *ngIf="errorEnvio" class="error-message">
+            Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.
+          </div>
+          
+          <form (ngSubmit)="enviarContacto()">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" class="form-control" [(ngModel)]="contacto.nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" class="form-control" [(ngModel)]="contacto.email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="asunto">Asunto</label>
+              <input type="text" id="asunto" class="form-control" [(ngModel)]="contacto.asunto" name="asunto" required>
+            </div>
+            <div class="form-group">
+              <label for="mensaje">Mensaje</label>
+              <textarea id="mensaje" class="form-control" [(ngModel)]="contacto.mensaje" name="mensaje" required></textarea>
+            </div>
+            <button type="submit" class="cta-button" style="width: 100%;">Enviar Mensaje</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <h3>NEALITICA</h3>
+      <p>Lic. Javier Carballido</p>
+    </div>
+    <div class="copyright">
+      &copy; {{ 2024 }} Nealitica. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>

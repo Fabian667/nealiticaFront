@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+:root {
+  --primary-color: #ffffff; /* White */
+  --primary-dark: #f4f4f4; /* Light Gray */
+  --secondary-color: #D60000; /* Red */
+  --accent-color: #D60000; /* Red */
+  --text-color: #333333; /* Dark Grey */
+  --bg-light: #ffffff;
+  --white: #ffffff;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-light);
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+button {
+  cursor: pointer;
+}

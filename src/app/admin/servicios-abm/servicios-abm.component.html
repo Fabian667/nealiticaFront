@@ -1,0 +1,57 @@
+<div class="admin-abm-container">
+  <h2>Gestión de Servicios</h2>
+
+  <div class="form-container">
+    <h3>{{ isEditing ? 'Editar Servicio' : 'Nuevo Servicio' }}</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" [(ngModel)]="currentServicio.titulo" name="titulo" required>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" [(ngModel)]="currentServicio.descripcion" name="descripcion" required rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="imagenUrl">URL de Imagen</label>
+        <input type="text" id="imagenUrl" [(ngModel)]="currentServicio.imagenUrl" name="imagenUrl">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="!currentServicio.titulo || !currentServicio.descripcion">
+          {{ isEditing ? 'Actualizar' : 'Crear' }}
+        </button>
+        <button type="button" class="btn-secondary" (click)="resetForm()" *ngIf="isEditing">Cancelar</button>
+      </div>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    </form>
+  </div>
+
+  <div class="list-container">
+    <h3>Lista de Servicios</h3>
+    <div *ngIf="isLoading" class="loading">Cargando...</div>
+    <table class="data-table" *ngIf="!isLoading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let servicio of servicios">
+          <td>{{ servicio.id }}</td>
+          <td>{{ servicio.titulo }}</td>
+          <td>{{ servicio.descripcion | slice:0:50 }}...</td>
+          <td class="actions-cell">
+            <button class="btn-edit" (click)="editServicio(servicio)">Editar</button>
+            <button class="btn-delete" (click)="deleteServicio(servicio.id)">Eliminar</button>
+          </td>
+        </tr>
+        <tr *ngIf="servicios.length === 0">
+          <td colspan="4" class="text-center">No hay servicios registrados.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

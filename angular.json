@@ -22,7 +22,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
@@ -59,7 +60,8 @@
               "buildTarget": "frontNealitica:build:production"
             },
             "development": {
-              "buildTarget": "frontNealitica:build:development"
+              "buildTarget": "frontNealitica:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

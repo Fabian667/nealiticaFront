@@ -1,0 +1,67 @@
+<div class="admin-abm-container">
+  <h2>Gestión de Noticias</h2>
+
+  <div class="form-container">
+    <h3>{{ isEditing ? 'Editar Noticia' : 'Nueva Noticia' }}</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" [(ngModel)]="currentNoticia.titulo" name="titulo" required>
+      </div>
+      <div class="form-group">
+        <label for="contenido">Contenido</label>
+        <textarea id="contenido" [(ngModel)]="currentNoticia.contenido" name="contenido" required rows="5"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="imagenUrl">URL de Imagen</label>
+        <input type="text" id="imagenUrl" [(ngModel)]="currentNoticia.imagenUrl" name="imagenUrl">
+      </div>
+      <div class="form-group">
+        <label for="fechaPublicacion">Fecha de Publicación</label>
+        <input type="date" id="fechaPublicacion" [(ngModel)]="currentNoticia.fechaPublicacion" name="fechaPublicacion" required>
+      </div>
+      <div class="form-group checkbox-group">
+        <label for="activo">Activo</label>
+        <input type="checkbox" id="activo" [(ngModel)]="currentNoticia.activo" name="activo">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="!currentNoticia.titulo || !currentNoticia.contenido">
+          {{ isEditing ? 'Actualizar' : 'Crear' }}
+        </button>
+        <button type="button" class="btn-secondary" (click)="resetForm()" *ngIf="isEditing">Cancelar</button>
+      </div>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    </form>
+  </div>
+
+  <div class="list-container">
+    <h3>Lista de Noticias</h3>
+    <div *ngIf="isLoading" class="loading">Cargando...</div>
+    <table class="data-table" *ngIf="!isLoading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let noticia of noticias">
+          <td>{{ noticia.id }}</td>
+          <td>{{ noticia.titulo }}</td>
+          <td>{{ noticia.fechaPublicacion | date:'mediumDate' }}</td>
+          <td>{{ noticia.activo ? 'Activo' : 'Inactivo' }}</td>
+          <td class="actions-cell">
+            <button class="btn-edit" (click)="editNoticia(noticia)">Editar</button>
+            <button class="btn-delete" (click)="deleteNoticia(noticia.id)">Eliminar</button>
+          </td>
+        </tr>
+        <tr *ngIf="noticias.length === 0">
+          <td colspan="5" class="text-center">No hay noticias registradas.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

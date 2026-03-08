@@ -1,0 +1,85 @@
+<main>
+  <!-- Hero Section with Slider -->
+  <section class="hero-slider">
+    <div class="slide" *ngFor="let slide of slides; let i = index" [class.active]="i === currentSlide" [style.backgroundImage]="'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(' + slide.image + ')'">
+      <div class="container hero-content">
+        <h1>{{ slide.title }}</h1>
+        <p>{{ slide.description }}</p>
+        <button class="cta-button" routerLink="/contacto">Contáctanos</button>
+      </div>
+    </div>
+    
+    <button class="slider-nav prev" (click)="prevSlide()">&#10094;</button>
+    <button class="slider-nav next" (click)="nextSlide()">&#10095;</button>
+    
+    <div class="slider-dots">
+      <span *ngFor="let slide of slides; let i = index" [class.active]="i === currentSlide" (click)="setSlide(i)"></span>
+    </div>
+  </section>
+
+  <!-- Servicios Section -->
+  <section class="services">
+    <div class="container">
+      <h2>Nuestros Servicios</h2>
+      <div class="services-grid">
+        <div class="service-card" *ngFor="let servicio of servicios">
+          <img *ngIf="servicio.imagenUrl" [src]="servicio.imagenUrl" alt="{{servicio.titulo}}" class="card-img">
+          <h3>{{ servicio.titulo }}</h3>
+          <p>{{ servicio.descripcion }}</p>
+        </div>
+        <div *ngIf="servicios.length === 0" style="color: #333; grid-column: 1/-1; text-align: center;">
+          <p>Cargando servicios o no hay datos disponibles...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Informes Section -->
+  <section class="informes">
+    <div class="container">
+      <h2>Informes Destacados</h2>
+      <div class="informes-grid">
+        <div class="informe-card" *ngFor="let informe of informes">
+          <div class="informe-icon">📄</div>
+          <h3>{{ informe.titulo }}</h3>
+          <p>{{ informe.descripcion }}</p>
+          <div class="informe-footer">
+            <span class="informe-date">{{ informe.fechaPublicacion | date:'mediumDate' }}</span>
+            <a [href]="informe.archivoUrl" target="_blank" class="download-link">Descargar PDF</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Noticias Section -->
+  <section class="noticias">
+    <div class="container">
+      <h2>Últimas Noticias</h2>
+      <div class="news-grid">
+        <div class="news-card" *ngFor="let noticia of noticias">
+          <div class="news-image" [style.backgroundImage]="'url(' + (noticia.imagenUrl || 'assets/images/news-placeholder.jpg') + ')'"></div>
+          <div class="news-content">
+            <span class="news-date">{{ noticia.fechaPublicacion | date:'longDate' }}</span>
+            <h3>{{ noticia.titulo }}</h3>
+            <p>{{ noticia.contenido | slice:0:150 }}...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alianzas Section -->
+  <section class="alianzas">
+    <div class="container">
+      <h2>Nuestras Alianzas</h2>
+      <div class="alianzas-grid">
+        <div class="alianza-item" *ngFor="let alianza of alianzas">
+          <a [href]="alianza.urlSitio" target="_blank">
+            <img [src]="alianza.logoUrl" [alt]="alianza.nombre" [title]="alianza.nombre">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
